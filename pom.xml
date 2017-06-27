@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sathish</groupId>
+  <artifactId>base</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <properties>
+  	<osgi.version>6.0.0</osgi.version>
+  	<osgi.compendium.version>5.0.0</osgi.compendium.version>
+  	<fileinstall.version>3.1.10</fileinstall.version>
+  </properties>
+  
+	<dependencies>
+		<dependency>
+			<groupId>org.osgi</groupId>
+	  		<artifactId>org.osgi.core</artifactId>
+	  		<version>${osgi.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.osgi</groupId>
+		    <artifactId>org.osgi.compendium</artifactId>
+		    <version>${osgi.compendium.version}</version>
+	  </dependency>
+	  <dependency>
+	        <groupId>org.apache.felix</groupId>
+	        <artifactId>org.apache.felix.fileinstall</artifactId>
+	        <version>${fileinstall.version}</version>
+	    </dependency>
+	</dependencies>
+  
+  <modules>
+  	<module>modules/sample-helloworld-api</module>
+  	<module>modules/sample-helloworld-impl</module>
+  	<module>modules/sample-runtime-dependencies</module>
+  </modules>
+  
+  <build>
+    <plugins>
+      <!-- Require Java 7 or higher for building -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <!-- Deploy OSGi bundles to a container -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-to-felix</id>
+            <phase>install</phase>
+            <configuration>
+              <target if="deployTo">
+                <delete dir="${deployTo}/lib/sathish/${project.build.finalName}" />
+                <copy file="${project.build.directory}/${project.build.finalName}.jar" todir="${deployTo}/lib/sathish"
+                  failonerror="false" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>extract-to-felix</id>
+            <phase>install</phase>
+            <configuration>
+              <target if="unpackTo">
+                <delete file="${unpackTo}/lib/sathish/${project.build.finalName}.jar" />
+                <unzip dest="${unpackTo}/lib/sathish/${project.build.finalName}" overwrite="true">
+                  <fileset dir="${project.build.directory}">
+                    <include name="${project.build.finalName}.jar" />
+                  </fileset>
+                </unzip>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+      	<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>

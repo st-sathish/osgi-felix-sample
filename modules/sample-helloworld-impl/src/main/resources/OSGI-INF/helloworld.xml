@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0">
+  <scr:component name="com.sathish.helloworld.impl.HelloWorldServiceImpl" immediate="true" activate="activate" deactivate="deactivate">
+    <implementation class="com.sathish.helloworld.impl.HelloWorldServiceImpl" />
+    <property name="service.description" value="Hello World Service" />
+    <service>
+      <provide interface="com.sathish.helloworld.api.HelloWorldService" />
+    </service>
+  </scr:component>
+</scr:components>
