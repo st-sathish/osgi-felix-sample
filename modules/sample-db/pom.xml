@@ -6,15 +6,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
-  <artifactId>sample-helloworld-impl</artifactId>
+  <artifactId>sample-db</artifactId>
   <packaging>bundle</packaging>
-  <name>sample-helloworld-impl</name>
+  <name>sathish-db</name>
+  
   <dependencies>
-  	<dependency>
-  		<groupId>com.sathish</groupId>
-  		<artifactId>sample-helloworld-api</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
   	<dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
@@ -23,8 +19,25 @@
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.compendium</artifactId>
     </dependency>
+    
+    <!-- Database Drivers and Connection Pooling -->
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
   </dependencies>
-  
   <build>
     <plugins>
       <plugin>
@@ -34,14 +47,23 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Import-Package>*;resolution:=optional</Import-Package>
+            <Bundle-Activator>com.sathish.db.Activator</Bundle-Activator>
+            <Build-Number>${buildNumber}</Build-Number>
+            <Import-Package>
+                *;resolution:=optional
+            </Import-Package>
+            <Embed-Dependency>
+              c3p0;inline=true,
+              config;inline=true,
+              mchange-commons-java;inline=true,
+              mysql-connector-java;inline=true
+            </Embed-Dependency>
             <Export-Package>
-              com.sathish.helloworld.impl;version=${project.version},
-              com.sathish.helloworld;version=${project.version}
+              com.sathish.db;version=${project.version}
             </Export-Package>
-            <Service-Component>
-              OSGI-INF/helloworld.xml
-            </Service-Component>
+            <_exportcontents>
+              com.mchange.*
+            </_exportcontents>
           </instructions>
         </configuration>
       </plugin>
