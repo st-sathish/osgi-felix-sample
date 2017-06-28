@@ -9,6 +9,7 @@
   	<osgi.version>6.0.0</osgi.version>
   	<osgi.compendium.version>5.0.0</osgi.compendium.version>
   	<fileinstall.version>3.1.10</fileinstall.version>
+  	<eclipselink.version>2.6.4</eclipselink.version>
   </properties>
   
 	<dependencies>
@@ -27,6 +28,43 @@
 	        <artifactId>org.apache.felix.fileinstall</artifactId>
 	        <version>${fileinstall.version}</version>
 	    </dependency>
+	    
+	    <!-- JPA -->
+      <dependency>
+        <groupId>org.eclipse.persistence</groupId>
+        <artifactId>org.eclipse.persistence.core</artifactId>
+        <version>${eclipselink.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.persistence</groupId>
+        <artifactId>org.eclipse.persistence.jpa</artifactId>
+        <version>${eclipselink.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.persistence</groupId>
+        <artifactId>org.eclipse.persistence.jpa.jpql</artifactId>
+        <version>${eclipselink.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.persistence</groupId>
+        <artifactId>org.eclipse.persistence.asm</artifactId>
+        <version>${eclipselink.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.persistence</groupId>
+        <artifactId>org.eclipse.persistence.antlr</artifactId>
+        <version>${eclipselink.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.persistence</groupId>
+        <artifactId>javax.persistence</artifactId>
+        <version>2.1.0</version>
+      </dependency>
 	</dependencies>
   
   <modules>
