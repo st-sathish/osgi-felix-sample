@@ -50,7 +50,8 @@
             <Bundle-Activator>com.sathish.db.Activator</Bundle-Activator>
             <Build-Number>${buildNumber}</Build-Number>
             <Import-Package>
-                *;resolution:=optional
+                org.w3c.dom;version=0,
+              *
             </Import-Package>
             <Embed-Dependency>
               c3p0;inline=true,
