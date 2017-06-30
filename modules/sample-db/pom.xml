@@ -8,7 +8,7 @@
   </parent>
   <artifactId>sample-db</artifactId>
   <packaging>bundle</packaging>
-  <name>sathish-db</name>
+  <name>sample-db</name>
   
   <dependencies>
   	<dependency>
@@ -37,6 +37,12 @@
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
     </dependency>
+    
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    
   </dependencies>
   <build>
     <plugins>
@@ -50,8 +56,8 @@
             <Bundle-Activator>com.sathish.db.Activator</Bundle-Activator>
             <Build-Number>${buildNumber}</Build-Number>
             <Import-Package>
-                org.w3c.dom;version=0,
-              *
+              org.w3c.dom;version=0,
+              *;resolution:=optional
             </Import-Package>
             <Embed-Dependency>
               c3p0;inline=true,
