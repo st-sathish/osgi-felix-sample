@@ -1,36 +1,54 @@
 package com.sathish.kernel.bundleinfo;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
-/*import static com.sathish.util.persistence.PersistenceEnvs.persistenceEnvironment;
-
-import com.sathish.util.persistence.PersistenceEnv;*/
+import javax.persistence.Query;
+import javax.persistence.spi.PersistenceProvider;
+import javax.print.attribute.TextSyntax;
 
 /** OSGi bound bundle info database. */
-public class OsgiBundleInfoDb extends AbstractBundleInfoDb {
+public class OsgiBundleInfoDb implements BundleInfoDb {
 
-	  public static final String PERSISTENCE_UNIT = "com.capestartproject.kernel";
-
-	  private EntityManagerFactory emf;
-	  //private PersistenceEnv penv;
-
-	  /** OSGi DI */
-	  void setEntityManagerFactory(EntityManagerFactory emf) {
-	    this.emf = emf;
-	    System.out.println("Entity manager factory created ::"+emf);
+	 private Map<String, Object> persistenceProperties;
+	  private PersistenceProvider persistenceProvider;
+	  
+	  /** The factory used to generate the entity manager */
+	  protected EntityManagerFactory emf = null;
+	  
+	/** OSGi DI */
+	  public void setPersistenceProperties(Map<String, Object> persistenceProperties) {
+	    this.persistenceProperties = persistenceProperties;
 	  }
 
-	  /*@Override protected PersistenceEnv getPersistenceEnv() {
-	    return penv;
-	  }*/
-
+	  /** The entity manager used for persisting Java objects. */
+	  protected EntityManager em = null;
+	  
+	  /** OSGi DI */
+	  public void setPersistenceProvider(PersistenceProvider persistenceProvider) {
+	    this.persistenceProvider = persistenceProvider;
+	  }
+	  
 	  /** OSGi callback */
-	  public void activate() {
-	    //penv = persistenceEnvironment(emf);
+	  @SuppressWarnings("unchecked")
+	public void activate() {
+		  emf = persistenceProvider.createEntityManagerFactory("com.capestartproject.kernel", persistenceProperties);
+		  System.out.println("Sample Kernel Entity manager factory created" +emf);
+		  em = emf.createEntityManager();
+		  Query query = em.createNamedQuery("Test.findAll");
+		  List<Test> tests = query.getResultList();
+		  for(Test t : tests) {
+			  System.out.println("Helloooooooooooooooooo############# "+t.testMessage);
+		  }
 	  }
 
 	  public void deactivate() {
 	    System.out.println("Closing persistence environment");
-	    //penv.close();
+	    if(emf.isOpen()) {
+	    	emf.close();
+	    	em.close();
+	    }
 	  }
 }

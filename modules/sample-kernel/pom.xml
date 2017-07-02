@@ -59,23 +59,18 @@
           <instructions>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Build-Number>${buildNumber}</Build-Number>
-            <Import-Package>
-              javax.xml.datatype;version=0.0.0,
-              javax.xml.namespace;version=0.0.0,
-              javax.xml.parsers;version=0.0.0,
-              javax.xml.validation;version=0.0.0,
-              org.xml.sax;version=0,
-              *
-            </Import-Package>
             <Export-Package>
               com.sathish.kernel.bundleinfo;version=${project.version}
             </Export-Package>
             <Service-Component>
-              OSGI-INF/bundle-info.xml
+               OSGI-INF/bundle-info.xml
             </Service-Component>
             <Meta-Persistence>
-              META-INF/persistence.xml
+               META-INF/persistence.xml
             </Meta-Persistence>
+            <JPA-PersistenceUnits>
+  				com.capestartproject.kernel
+			</JPA-PersistenceUnits>
           </instructions>
         </configuration>
       </plugin>

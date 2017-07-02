@@ -9,7 +9,7 @@
   	<osgi.version>6.0.0</osgi.version>
   	<osgi.compendium.version>5.0.0</osgi.compendium.version>
   	<fileinstall.version>3.1.10</fileinstall.version>
-  	<eclipselink.version>2.6.4</eclipselink.version>
+  	<eclipselink.version>2.0.2</eclipselink.version>
   </properties>
   
   <modules>
@@ -17,7 +17,7 @@
   	<module>modules/sample-helloworld-impl</module>
   	<module>modules/sample-runtime-dependencies</module>
   	<!-- <module>modules/sample-common</module> -->
-  	<module>modules/sample-kernel</module>
+    <module>modules/sample-kernel</module>
   	<module>modules/sample-db</module>
   </modules>
   
@@ -43,11 +43,6 @@
         <artifactId>c3p0</artifactId>
         <version>0.9.5.2</version>
       </dependency>
-	  	<dependency>
-	        <groupId>com.entwinemedia.common</groupId>
-	        <artifactId>functional</artifactId>
-	        <version>1.1.1</version>
-	      </dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
 	  		<artifactId>org.osgi.core</artifactId>
@@ -98,7 +93,7 @@
       <dependency>
         <groupId>org.eclipse.persistence</groupId>
         <artifactId>javax.persistence</artifactId>
-        <version>2.1.0</version>
+        <version>2.0.3</version>
       </dependency>
       
       <dependency>
@@ -195,19 +190,54 @@
     <pluginManagement>
       <plugins>
       	<plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.0.1</version>
+          <inherited>true</inherited>
+          <configuration>
+            <instructions>
+              <Bundle-Category>capestartproject</Bundle-Category>
+              <Bundle-DocURL>http://capestart.com/</Bundle-DocURL>
+              <Bundle-Vendor>The Capestart Project</Bundle-Vendor>
+              <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            </instructions>
+          </configuration>
+        </plugin>
+      	<plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
           <version>1.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.2</version>
+          <configuration>
+            <source>1.7</source>
+            <target>1.7</target>
+            <compilerArgument>${compilerArgument}</compilerArgument>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
   </build>
   
   <repositories>
-    <repository>
+    <!-- <repository>
       <id>Entwinemedia-public</id>
       <name>entwinemedia Public Url</name>
       <url>http://maven.entwinemedia.com/content/repositories/releases/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository> -->
+    <repository>
+      <id>opencast</id>
+      <name>Opencast Repo</name>
+      <url>http://nexus.opencast.org/nexus/content/groups/public</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
